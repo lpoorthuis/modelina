@@ -409,7 +409,7 @@ USAGE
     [--csharpSystemJson] [--goIncludeComments] [--goIncludeTags] [--javaIncludeComments] [--javaJackson]
     [--javaConstraints] [--javaArrayType Array|List] [--kotlinAllowInheritance] [--kotlinJackson]
     [--kotlinIgnoreAdditionalProperties] [--kotlinIncludeComponentSchemas]
-    [--kotlinTypeMapping <value>...] [--pyDantic]
+    [--kotlinRequiredPropertiesFirst] [--kotlinTypeMapping <value>...] [--pyDantic]
 
 ARGUMENTS
   LANGUAGE  (typescript|csharp|golang|java|javascript|dart|python|rust|kotlin|php|cplusplus|scala) The language you want
@@ -440,6 +440,7 @@ FLAGS
       --kotlinIncludeComponentSchemas
                                       Kotlin specific, generate every schema in components/schemas
       --kotlinJackson                 Kotlin specific, generate the models with Jackson serialization support
+      --kotlinRequiredPropertiesFirst Kotlin specific, render required constructor properties before optional properties
       --kotlinTypeMapping=<value>...  Kotlin specific, map a string format to a Kotlin type, for example
                                       uuid=java.util.UUID
       --namespace=<value>         C#, C++ and PHP specific, define the namespace to use for the generated models. This

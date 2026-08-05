@@ -19,6 +19,7 @@ implementation. The default one should suffice here.
 - [Use explicit enum constant names](#use-explicit-enum-constant-names)
 - [Generate inherited and polymorphic models](#generate-inherited-and-polymorphic-models)
 - [Omit implicit additional properties](#omit-implicit-additional-properties)
+- [Render required properties first](#render-required-properties-first)
 - [Include Javax validation constraint annotations for properties](#include-javax-validation-constraint-annotations-for-properties)
 - [Generate serializer and deserializer functionality](#generate-serializer-and-deserializer-functionality)
   * [To and from JSON](#to-and-from-json)
@@ -105,6 +106,10 @@ Use `--kotlinAllowInheritance` with the Modelina or AsyncAPI CLI.
 ## Omit implicit additional properties
 
 Use the existing JSON Schema processor option `ignoreAdditionalProperties` when generated Kotlin models should not contain an implicit `additionalProperties` map. The CLI exposes it as `--kotlinIgnoreAdditionalProperties`.
+
+## Render required properties first
+
+Set `requiredPropertiesFirst: true` to place required constructor properties before optional properties while preserving the original order within both groups. The CLI exposes this option as `--kotlinRequiredPropertiesFirst`.
 
 ## Include Javax validation constraint annotations for properties
 

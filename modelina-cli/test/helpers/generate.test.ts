@@ -87,6 +87,13 @@ describe('generate models', () => {
       });
       expect(fileGenerator.options.processorOptions?.asyncapi?.includeComponentSchemas).equal(true);
     });
+    it('should properly parse --kotlinRequiredPropertiesFirst flag', async () => {
+      const {fileGenerator} = buildKotlinGenerator({
+        packageName: 'test',
+        kotlinRequiredPropertiesFirst: true
+      });
+      expect(fileGenerator.options.requiredPropertiesFirst).equal(true);
+    });
     it('should apply --kotlinTypeMapping values', async () => {
       const {fileGenerator} = buildKotlinGenerator({
         packageName: 'test',

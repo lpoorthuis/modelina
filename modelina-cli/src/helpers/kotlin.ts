@@ -28,6 +28,11 @@ export const KotlinOclifFlags = {
     required: false,
     default: false
   }),
+  kotlinRequiredPropertiesFirst: Flags.boolean({
+    description: 'Kotlin specific, render required constructor properties before optional properties',
+    required: false,
+    default: false
+  }),
   kotlinTypeMapping: Flags.string({
     description: 'Kotlin specific, map a string format to a Kotlin type, for example uuid=java.util.UUID',
     multiple: true,
@@ -48,6 +53,7 @@ export function buildKotlinGenerator(flags: any): BuilderReturnType {
     kotlinJackson,
     kotlinIgnoreAdditionalProperties,
     kotlinIncludeComponentSchemas,
+    kotlinRequiredPropertiesFirst = false,
     kotlinTypeMapping
   } = flags;
   const presets = [];
@@ -70,6 +76,7 @@ export function buildKotlinGenerator(flags: any): BuilderReturnType {
 
   const fileGenerator = new KotlinFileGenerator({
     presets,
+    requiredPropertiesFirst: kotlinRequiredPropertiesFirst,
     typeMapping,
     processorOptions: {
       asyncapi: {
