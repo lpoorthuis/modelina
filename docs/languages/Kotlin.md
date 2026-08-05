@@ -17,6 +17,7 @@ implementation. The default one should suffice here.
 - [Generate all AsyncAPI component schemas](#generate-all-asyncapi-component-schemas)
 - [Map custom string formats](#map-custom-string-formats)
 - [Use explicit enum constant names](#use-explicit-enum-constant-names)
+- [Generate inherited and polymorphic models](#generate-inherited-and-polymorphic-models)
 - [Include Javax validation constraint annotations for properties](#include-javax-validation-constraint-annotations-for-properties)
 - [Generate serializer and deserializer functionality](#generate-serializer-and-deserializer-functionality)
   * [To and from JSON](#to-and-from-json)
@@ -80,6 +81,25 @@ x-enum-varnames:
 ```
 
 Modelina still applies Kotlin identifier safety rules to the supplied names. If the extension is missing or invalid, names continue to be derived from the enum values.
+
+## Generate inherited and polymorphic models
+
+Enable JSON Schema inheritance to render inherited object schemas as Kotlin interfaces and implementations:
+
+```ts
+const generator = new KotlinGenerator({
+  presets: [KOTLIN_JACKSON_PRESET],
+  processorOptions: {
+    jsonSchema: {
+      allowInheritance: true
+    }
+  }
+});
+```
+
+With the Jackson preset enabled, AsyncAPI discriminators generate `@JsonTypeInfo` and `@JsonSubTypes` metadata. `x-discriminator-mapping` is honored when it maps wire values to component schema references.
+
+Use `--kotlinAllowInheritance` with the Modelina or AsyncAPI CLI.
 
 ## Include Javax validation constraint annotations for properties
 

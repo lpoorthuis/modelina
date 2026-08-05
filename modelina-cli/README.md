@@ -407,7 +407,8 @@ USAGE
     [--tsExportType default|named] [--tsJsonBinPack] [--tsMarshalling] [--tsExampleInstance] [--tsRawPropertyNames]
     [--csharpAutoImplement] [--csharpNewtonsoft] [--csharpArrayType Array|List] [--csharpHashcode] [--csharpEqual]
     [--csharpSystemJson] [--goIncludeComments] [--goIncludeTags] [--javaIncludeComments] [--javaJackson]
-    [--javaConstraints] [--javaArrayType Array|List] [--kotlinJackson] [--kotlinIncludeComponentSchemas]
+    [--javaConstraints] [--javaArrayType Array|List] [--kotlinAllowInheritance] [--kotlinJackson]
+    [--kotlinIncludeComponentSchemas]
     [--kotlinTypeMapping <value>...] [--pyDantic]
 
 ARGUMENTS
@@ -433,6 +434,7 @@ FLAGS
       --javaConstraints           Java specific, generate the models with constraints
       --javaIncludeComments       Java specific, if enabled add comments while generating models.
       --javaJackson               Java specific, generate the models with Jackson serialization support
+      --kotlinAllowInheritance          Kotlin specific, generate interfaces for inherited schemas
       --kotlinIncludeComponentSchemas
                                       Kotlin specific, generate every schema in components/schemas
       --kotlinJackson                 Kotlin specific, generate the models with Jackson serialization support

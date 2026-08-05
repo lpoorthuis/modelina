@@ -8,6 +8,11 @@ import { Flags } from "@oclif/core";
 import { BuilderReturnType } from "./generate";
 
 export const KotlinOclifFlags = {
+  kotlinAllowInheritance: Flags.boolean({
+    description: 'Kotlin specific, generate interfaces for inherited schemas',
+    required: false,
+    default: false
+  }),
   kotlinJackson: Flags.boolean({
     description: 'Kotlin specific, generate the models with Jackson serialization support',
     required: false,
@@ -34,6 +39,7 @@ export const KotlinOclifFlags = {
 export function buildKotlinGenerator(flags: any): BuilderReturnType {
   const {
     packageName,
+    kotlinAllowInheritance,
     kotlinJackson,
     kotlinIncludeComponentSchemas,
     kotlinTypeMapping
@@ -62,6 +68,9 @@ export function buildKotlinGenerator(flags: any): BuilderReturnType {
     processorOptions: {
       asyncapi: {
         includeComponentSchemas: kotlinIncludeComponentSchemas
+      },
+      jsonSchema: {
+        allowInheritance: kotlinAllowInheritance
       }
     }
   });

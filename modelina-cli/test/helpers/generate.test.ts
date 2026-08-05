@@ -61,6 +61,13 @@ describe('generate models', () => {
       expect(fileOptions).to.have.property('packageName','test');
       expect(fileGenerator.options.presets.length).equal(0);
     });
+    it('should properly parse --kotlinAllowInheritance flag', async () => {
+      const {fileGenerator} = buildKotlinGenerator({
+        packageName: 'test',
+        kotlinAllowInheritance: true
+      });
+      expect(fileGenerator.options.processorOptions?.jsonSchema?.allowInheritance).equal(true);
+    });
     it('should properly parse --kotlinJackson flag', async () => {
       const {fileOptions, fileGenerator} = buildKotlinGenerator({packageName: 'test', kotlinJackson: true});
       expect(fileOptions).to.have.property('packageName','test');
