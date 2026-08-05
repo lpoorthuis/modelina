@@ -15,6 +15,7 @@ implementation. The default one should suffice here.
 - [Include KDoc for properties](#include-kdoc-for-properties)
 - [Change the collection type for arrays](#change-the-collection-type-for-arrays)
 - [Generate all AsyncAPI component schemas](#generate-all-asyncapi-component-schemas)
+- [Map custom string formats](#map-custom-string-formats)
 - [Include Javax validation constraint annotations for properties](#include-javax-validation-constraint-annotations-for-properties)
 - [Generate serializer and deserializer functionality](#generate-serializer-and-deserializer-functionality)
   * [To and from JSON](#to-and-from-json)
@@ -48,6 +49,20 @@ const generator = new KotlinGenerator({
 ```
 
 Use `--kotlinIncludeComponentSchemas` to enable the same behavior from the Modelina or AsyncAPI CLI.
+
+## Map custom string formats
+
+The Kotlin generator API supports custom type mappings. The CLI exposes string format mappings through repeatable `--kotlinTypeMapping` options:
+
+```sh
+asyncapi generate models kotlin asyncapi.yaml \
+  --packageName com.example \
+  --kotlinTypeMapping uuid=java.util.UUID \
+  --kotlinTypeMapping instant=java.time.Instant \
+  --kotlinTypeMapping zoned-date-time=java.time.ZonedDateTime
+```
+
+Unconfigured formats continue to use the Kotlin generator's default mappings.
 
 ## Include Javax validation constraint annotations for properties
 

@@ -73,5 +73,34 @@ describe('generate models', () => {
       });
       expect(fileGenerator.options.processorOptions?.asyncapi?.includeComponentSchemas).equal(true);
     });
+    it('should apply --kotlinTypeMapping values', async () => {
+      const {fileGenerator} = buildKotlinGenerator({
+        packageName: 'test',
+        kotlinTypeMapping: [
+          'uuid=java.util.UUID',
+          'instant=java.time.Instant'
+        ]
+      });
+      const models = await fileGenerator.generate({
+        $id: 'MappedTypes',
+        type: 'object',
+        additionalProperties: false,
+        properties: {
+          id: { type: 'string', format: 'uuid' },
+          createdAt: { type: 'string', format: 'instant' },
+          name: { type: 'string' }
+        }
+      });
+
+      expect(models[0].result).to.contain('val id: java.util.UUID?');
+      expect(models[0].result).to.contain('val createdAt: java.time.Instant?');
+      expect(models[0].result).to.contain('val name: String?');
+    });
+    it('should reject malformed --kotlinTypeMapping values', async () => {
+      expect(() => buildKotlinGenerator({
+        packageName: 'test',
+        kotlinTypeMapping: ['uuid']
+      })).to.throw("Invalid Kotlin type mapping 'uuid'. Expected FORMAT=KOTLIN_TYPE.");
+    });
   });
 });

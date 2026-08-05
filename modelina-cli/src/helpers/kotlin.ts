@@ -1,4 +1,9 @@
-import { KOTLIN_JACKSON_PRESET, KotlinFileGenerator } from "@asyncapi/modelina";
+import {
+  KOTLIN_JACKSON_PRESET,
+  KotlinFileGenerator,
+  KotlinGenerator,
+  KotlinTypeMapping
+} from "@asyncapi/modelina";
 import { Flags } from "@oclif/core";
 import { BuilderReturnType } from "./generate";
 
@@ -12,6 +17,11 @@ export const KotlinOclifFlags = {
     description: 'Kotlin specific, generate every schema in components/schemas',
     required: false,
     default: false
+  }),
+  kotlinTypeMapping: Flags.string({
+    description: 'Kotlin specific, map a string format to a Kotlin type, for example uuid=java.util.UUID',
+    multiple: true,
+    required: false
   })
 }
 
@@ -25,7 +35,8 @@ export function buildKotlinGenerator(flags: any): BuilderReturnType {
   const {
     packageName,
     kotlinJackson,
-    kotlinIncludeComponentSchemas
+    kotlinIncludeComponentSchemas,
+    kotlinTypeMapping
   } = flags;
   const presets = [];
   
@@ -34,8 +45,20 @@ export function buildKotlinGenerator(flags: any): BuilderReturnType {
   }
 
   if (kotlinJackson) { presets.push(KOTLIN_JACKSON_PRESET); }
+
+  const formatMappings = parseKotlinTypeMappings(kotlinTypeMapping);
+  const typeMapping: Partial<KotlinTypeMapping> = {};
+  if (formatMappings.size > 0) {
+    typeMapping.String = (context) => {
+      const format = context.constrainedModel.options.format;
+      return formatMappings.get(format || '') ||
+        KotlinGenerator.defaultOptions.typeMapping.String(context);
+    };
+  }
+
   const fileGenerator = new KotlinFileGenerator({
     presets,
+    typeMapping,
     processorOptions: {
       asyncapi: {
         includeComponentSchemas: kotlinIncludeComponentSchemas
@@ -49,4 +72,23 @@ export function buildKotlinGenerator(flags: any): BuilderReturnType {
     fileOptions,
     fileGenerator
   };
+}
+
+function parseKotlinTypeMappings(mappings?: string[]): Map<string, string> {
+  const parsedMappings = new Map<string, string>();
+  for (const mapping of mappings || []) {
+    const separatorIndex = mapping.indexOf('=');
+    if (separatorIndex <= 0 || separatorIndex === mapping.length - 1) {
+      throw new Error(
+        `Invalid Kotlin type mapping '${mapping}'. Expected FORMAT=KOTLIN_TYPE.`
+      );
+    }
+
+    parsedMappings.set(
+      mapping.slice(0, separatorIndex),
+      mapping.slice(separatorIndex + 1)
+    );
+  }
+
+  return parsedMappings;
 }
