@@ -18,6 +18,7 @@ implementation. The default one should suffice here.
 - [Map custom string formats](#map-custom-string-formats)
 - [Use explicit enum constant names](#use-explicit-enum-constant-names)
 - [Generate inherited and polymorphic models](#generate-inherited-and-polymorphic-models)
+- [Omit implicit additional properties](#omit-implicit-additional-properties)
 - [Include Javax validation constraint annotations for properties](#include-javax-validation-constraint-annotations-for-properties)
 - [Generate serializer and deserializer functionality](#generate-serializer-and-deserializer-functionality)
   * [To and from JSON](#to-and-from-json)
@@ -100,6 +101,10 @@ const generator = new KotlinGenerator({
 With the Jackson preset enabled, AsyncAPI discriminators generate `@JsonTypeInfo` and `@JsonSubTypes` metadata. `x-discriminator-mapping` is honored when it maps wire values to component schema references.
 
 Use `--kotlinAllowInheritance` with the Modelina or AsyncAPI CLI.
+
+## Omit implicit additional properties
+
+Use the existing JSON Schema processor option `ignoreAdditionalProperties` when generated Kotlin models should not contain an implicit `additionalProperties` map. The CLI exposes it as `--kotlinIgnoreAdditionalProperties`.
 
 ## Include Javax validation constraint annotations for properties
 

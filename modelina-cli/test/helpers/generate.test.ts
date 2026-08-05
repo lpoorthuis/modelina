@@ -73,6 +73,13 @@ describe('generate models', () => {
       expect(fileOptions).to.have.property('packageName','test');
       expect(fileGenerator.options.presets.length).equal(1);
     });
+    it('should properly parse --kotlinIgnoreAdditionalProperties flag', async () => {
+      const {fileGenerator} = buildKotlinGenerator({
+        packageName: 'test',
+        kotlinIgnoreAdditionalProperties: true
+      });
+      expect(fileGenerator.options.processorOptions?.jsonSchema?.ignoreAdditionalProperties).equal(true);
+    });
     it('should properly parse --kotlinIncludeComponentSchemas flag', async () => {
       const {fileGenerator} = buildKotlinGenerator({
         packageName: 'test',

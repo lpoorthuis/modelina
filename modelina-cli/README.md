@@ -408,7 +408,7 @@ USAGE
     [--csharpAutoImplement] [--csharpNewtonsoft] [--csharpArrayType Array|List] [--csharpHashcode] [--csharpEqual]
     [--csharpSystemJson] [--goIncludeComments] [--goIncludeTags] [--javaIncludeComments] [--javaJackson]
     [--javaConstraints] [--javaArrayType Array|List] [--kotlinAllowInheritance] [--kotlinJackson]
-    [--kotlinIncludeComponentSchemas]
+    [--kotlinIgnoreAdditionalProperties] [--kotlinIncludeComponentSchemas]
     [--kotlinTypeMapping <value>...] [--pyDantic]
 
 ARGUMENTS
@@ -435,6 +435,8 @@ FLAGS
       --javaIncludeComments       Java specific, if enabled add comments while generating models.
       --javaJackson               Java specific, generate the models with Jackson serialization support
       --kotlinAllowInheritance          Kotlin specific, generate interfaces for inherited schemas
+      --kotlinIgnoreAdditionalProperties
+                                      Kotlin specific, omit additionalProperties from generated models
       --kotlinIncludeComponentSchemas
                                       Kotlin specific, generate every schema in components/schemas
       --kotlinJackson                 Kotlin specific, generate the models with Jackson serialization support

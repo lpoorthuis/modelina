@@ -18,6 +18,11 @@ export const KotlinOclifFlags = {
     required: false,
     default: false
   }),
+  kotlinIgnoreAdditionalProperties: Flags.boolean({
+    description: 'Kotlin specific, omit additionalProperties from generated models',
+    required: false,
+    default: false
+  }),
   kotlinIncludeComponentSchemas: Flags.boolean({
     description: 'Kotlin specific, generate every schema in components/schemas',
     required: false,
@@ -41,6 +46,7 @@ export function buildKotlinGenerator(flags: any): BuilderReturnType {
     packageName,
     kotlinAllowInheritance,
     kotlinJackson,
+    kotlinIgnoreAdditionalProperties,
     kotlinIncludeComponentSchemas,
     kotlinTypeMapping
   } = flags;
@@ -70,7 +76,8 @@ export function buildKotlinGenerator(flags: any): BuilderReturnType {
         includeComponentSchemas: kotlinIncludeComponentSchemas
       },
       jsonSchema: {
-        allowInheritance: kotlinAllowInheritance
+        allowInheritance: kotlinAllowInheritance,
+        ignoreAdditionalProperties: kotlinIgnoreAdditionalProperties
       }
     }
   });
