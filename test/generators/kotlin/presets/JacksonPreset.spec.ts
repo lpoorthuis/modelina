@@ -30,6 +30,23 @@ describe('KOTLIN_JACKSON_PRESET', () => {
     ]);
   });
 
+  test('should keep a standalone discriminator property readable', async () => {
+    const doc = {
+      $id: 'Standalone',
+      type: 'object',
+      discriminator: 'kind',
+      properties: {
+        kind: { type: 'string' }
+      },
+      required: ['kind']
+    };
+
+    const models = await generator.generate(doc);
+
+    expect(models[0].result).toContain('@get:JsonProperty("kind")');
+    expect(models[0].result).not.toContain('JsonProperty.Access.WRITE_ONLY');
+  });
+
   test('should render Jackson serialization and deserialization annotations for enum', async () => {
     const doc = {
       $id: 'OrderStatus',
