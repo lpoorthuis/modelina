@@ -56,6 +56,8 @@ const generator = new KotlinGenerator({
 });
 ```
 
+For the Modelina or AsyncAPI CLI, enable the same behavior with `--kotlinJackson`.
+
 The preset keeps schema property names through `@get:JsonProperty`, serializes enum values through `@JsonValue`, and adds a `@JsonCreator` enum factory for deserialization. The consuming Kotlin project must include Jackson annotations and the Jackson Kotlin module.
 
 Check out this [example for a live demonstration](../../examples/kotlin-generate-jackson).

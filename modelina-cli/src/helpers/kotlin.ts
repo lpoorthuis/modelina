@@ -1,7 +1,14 @@
-import { KotlinFileGenerator } from "@asyncapi/modelina";
+import { KOTLIN_JACKSON_PRESET, KotlinFileGenerator } from "@asyncapi/modelina";
+import { Flags } from "@oclif/core";
 import { BuilderReturnType } from "./generate";
 
-export const KotlinOclifFlags = { }
+export const KotlinOclifFlags = {
+  kotlinJackson: Flags.boolean({
+    description: 'Kotlin specific, generate the models with Jackson serialization support',
+    required: false,
+    default: false
+  })
+}
 
 /**
  * This function builds all the relevant information for the main generate command
@@ -10,13 +17,15 @@ export const KotlinOclifFlags = { }
  * @returns 
  */
 export function buildKotlinGenerator(flags: any): BuilderReturnType {
-  const { packageName } = flags;
+  const { packageName, kotlinJackson } = flags;
+  const presets = [];
   
   if (packageName === undefined) {
     throw new Error('In order to generate models to Kotlin, we need to know which package they are under. Add `--packageName=PACKAGENAME` to set the desired package name.');
   }
 
-  const fileGenerator = new KotlinFileGenerator();
+  if (kotlinJackson) { presets.push(KOTLIN_JACKSON_PRESET); }
+  const fileGenerator = new KotlinFileGenerator({ presets });
   const fileOptions = {
     packageName
   };

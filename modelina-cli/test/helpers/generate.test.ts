@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { expect } from '@oclif/test';
 import {buildPythonGenerator} from '../../src/helpers/python'
+import {buildKotlinGenerator} from '../../src/helpers/kotlin'
 
 const AsyncapiV3Yaml = fs.readFileSync(
   path.resolve(__dirname, '../fixtures/asyncapi_v3.yml'),
@@ -49,6 +50,19 @@ describe('generate models', () => {
     });
     it('should properly parse --pyDantic flag', async () => {
       const {fileOptions, fileGenerator} = buildPythonGenerator({packageName: 'test', pyDantic: true});
+      expect(fileOptions).to.have.property('packageName','test');
+      expect(fileGenerator.options.presets.length).equal(1);
+    });
+  });
+
+  describe('for Kotlin', () => {
+    it('should not enable Jackson by default', async () => {
+      const {fileOptions, fileGenerator} = buildKotlinGenerator({packageName: 'test'});
+      expect(fileOptions).to.have.property('packageName','test');
+      expect(fileGenerator.options.presets.length).equal(0);
+    });
+    it('should properly parse --kotlinJackson flag', async () => {
+      const {fileOptions, fileGenerator} = buildKotlinGenerator({packageName: 'test', kotlinJackson: true});
       expect(fileOptions).to.have.property('packageName','test');
       expect(fileGenerator.options.presets.length).equal(1);
     });
