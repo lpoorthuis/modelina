@@ -45,7 +45,20 @@ The most widely used use case for Modelina is to generate models that include se
 As you normally only need one library to do this, we developers can never get enough with creating new stuff, therefore there might be one specific library you need or want to integrate with. Therefore, there is not one specific preset that offers everything. Below is a list of all the supported serialization presets.
 
 ### To and from JSON
-Currently not supported, [let everyone know you need it](https://github.com/asyncapi/modelina/issues/new?assignees=&labels=enhancement&template=enhancement.md)!
+
+Use `KOTLIN_JACKSON_PRESET` to add Jackson annotations to generated Kotlin data classes and enums:
+
+```ts
+import { KotlinGenerator, KOTLIN_JACKSON_PRESET } from '@asyncapi/modelina';
+
+const generator = new KotlinGenerator({
+  presets: [KOTLIN_JACKSON_PRESET]
+});
+```
+
+The preset keeps schema property names through `@get:JsonProperty`, serializes enum values through `@JsonValue`, and adds a `@JsonCreator` enum factory for deserialization. The consuming Kotlin project must include Jackson annotations and the Jackson Kotlin module.
+
+Check out this [example for a live demonstration](../../examples/kotlin-generate-jackson).
 
 ### To and from XML
 Currently not supported, [let everyone know you need it](https://github.com/asyncapi/modelina/issues/new?assignees=&labels=enhancement&template=enhancement.md)!
