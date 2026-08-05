@@ -7,6 +7,11 @@ export const KotlinOclifFlags = {
     description: 'Kotlin specific, generate the models with Jackson serialization support',
     required: false,
     default: false
+  }),
+  kotlinIncludeComponentSchemas: Flags.boolean({
+    description: 'Kotlin specific, generate every schema in components/schemas',
+    required: false,
+    default: false
   })
 }
 
@@ -17,7 +22,11 @@ export const KotlinOclifFlags = {
  * @returns 
  */
 export function buildKotlinGenerator(flags: any): BuilderReturnType {
-  const { packageName, kotlinJackson } = flags;
+  const {
+    packageName,
+    kotlinJackson,
+    kotlinIncludeComponentSchemas
+  } = flags;
   const presets = [];
   
   if (packageName === undefined) {
@@ -25,7 +34,14 @@ export function buildKotlinGenerator(flags: any): BuilderReturnType {
   }
 
   if (kotlinJackson) { presets.push(KOTLIN_JACKSON_PRESET); }
-  const fileGenerator = new KotlinFileGenerator({ presets });
+  const fileGenerator = new KotlinFileGenerator({
+    presets,
+    processorOptions: {
+      asyncapi: {
+        includeComponentSchemas: kotlinIncludeComponentSchemas
+      }
+    }
+  });
   const fileOptions = {
     packageName
   };

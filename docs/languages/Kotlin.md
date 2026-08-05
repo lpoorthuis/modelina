@@ -14,6 +14,7 @@ implementation. The default one should suffice here.
 
 - [Include KDoc for properties](#include-kdoc-for-properties)
 - [Change the collection type for arrays](#change-the-collection-type-for-arrays)
+- [Generate all AsyncAPI component schemas](#generate-all-asyncapi-component-schemas)
 - [Include Javax validation constraint annotations for properties](#include-javax-validation-constraint-annotations-for-properties)
 - [Generate serializer and deserializer functionality](#generate-serializer-and-deserializer-functionality)
   * [To and from JSON](#to-and-from-json)
@@ -31,6 +32,22 @@ Check out this [example for a live demonstration](../../examples/kotlin-generate
 Sometimes, we might want to render a different collection type, and instead of the default `Array` use it as a `List` type. To do so, provide the option `collectionType: 'List'`.
 
 Check out this [example for a live demonstration](../../examples/kotlin-change-collection-type).
+
+## Generate all AsyncAPI component schemas
+
+By default, Modelina generates schemas reachable from message payloads. To also generate standalone or currently unreferenced schemas from `components/schemas`, enable `includeComponentSchemas`:
+
+```ts
+const generator = new KotlinGenerator({
+  processorOptions: {
+    asyncapi: {
+      includeComponentSchemas: true
+    }
+  }
+});
+```
+
+Use `--kotlinIncludeComponentSchemas` to enable the same behavior from the Modelina or AsyncAPI CLI.
 
 ## Include Javax validation constraint annotations for properties
 
