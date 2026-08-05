@@ -16,6 +16,7 @@ implementation. The default one should suffice here.
 - [Change the collection type for arrays](#change-the-collection-type-for-arrays)
 - [Generate all AsyncAPI component schemas](#generate-all-asyncapi-component-schemas)
 - [Map custom string formats](#map-custom-string-formats)
+- [Use explicit enum constant names](#use-explicit-enum-constant-names)
 - [Include Javax validation constraint annotations for properties](#include-javax-validation-constraint-annotations-for-properties)
 - [Generate serializer and deserializer functionality](#generate-serializer-and-deserializer-functionality)
   * [To and from JSON](#to-and-from-json)
@@ -63,6 +64,22 @@ asyncapi generate models kotlin asyncapi.yaml \
 ```
 
 Unconfigured formats continue to use the Kotlin generator's default mappings.
+
+## Use explicit enum constant names
+
+Use `x-enum-varnames` to provide one generated constant name for each enum value:
+
+```yaml
+type: string
+enum:
+  - New York
+  - California
+x-enum-varnames:
+  - NY
+  - GOLDEN_STATE
+```
+
+Modelina still applies Kotlin identifier safety rules to the supplied names. If the extension is missing or invalid, names continue to be derived from the enum values.
 
 ## Include Javax validation constraint annotations for properties
 

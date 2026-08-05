@@ -409,7 +409,26 @@ export function convertToEnumModel(
     return undefined;
   }
 
-  const enumValueToEnumValueModel = (enumValue: unknown): EnumValueModel => {
+  const enumVarNames = jsonSchemaModel.originalInput?.['x-enum-varnames'];
+  const validEnumVarNames =
+    Array.isArray(enumVarNames) &&
+    enumVarNames.length === jsonSchemaModel.enum?.length &&
+    enumVarNames.every((enumVarName) => typeof enumVarName === 'string')
+      ? enumVarNames
+      : undefined;
+  if (enumVarNames !== undefined && validEnumVarNames === undefined) {
+    Logger.warn(
+      `Ignoring invalid x-enum-varnames for ${name}; expected one string name for every enum value.`
+    );
+  }
+
+  const enumValueToEnumValueModel = (
+    enumValue: unknown,
+    enumKey?: string
+  ): EnumValueModel => {
+    if (enumKey !== undefined) {
+      return new EnumValueModel(enumKey, enumValue);
+    }
     if (typeof enumValue !== 'string') {
       return new EnumValueModel(JSON.stringify(enumValue), enumValue);
     }
@@ -424,8 +443,10 @@ export function convertToEnumModel(
   );
 
   if (jsonSchemaModel.enum) {
+    const enumVarNameIterator = validEnumVarNames?.values();
     for (const enumValue of jsonSchemaModel.enum) {
-      metaModel.values.push(enumValueToEnumValueModel(enumValue));
+      const enumKey = enumVarNameIterator?.next().value;
+      metaModel.values.push(enumValueToEnumValueModel(enumValue, enumKey));
     }
   }
 
